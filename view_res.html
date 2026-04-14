@@ -1,0 +1,197 @@
+<html>
+<head>
+<title>GeneNFT | Researcher Approval</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="../static/css/style2.css" rel="stylesheet">
+
+<style>
+
+.table-box{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th{
+background:#203a43;
+color:white;
+padding:12px;
+font-size:14px;
+}
+
+table td{
+padding:12px;
+border-bottom:1px solid #eee;
+font-size:14px;
+}
+
+.status-approved{
+color:green;
+font-weight:600;
+}
+
+.status-pending{
+color:#f39c12;
+font-weight:600;
+}
+
+.btn{
+padding:6px 12px;
+border-radius:6px;
+text-decoration:none;
+font-size:13px;
+}
+
+.btn-approve{
+background:#27ae60;
+color:white;
+}
+
+.btn:hover{
+opacity:.85;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<h2><i class="fa fa-dna"></i> GeneNFT</h2>
+
+<a href="/admin"><i class="fa fa-chart-line"></i> Dashboard</a>
+
+<a href="/view_res"><i class="fa fa-user-check"></i> Researcher Approval</a>
+
+<a href="/view_owner"><i class="fa fa-users"></i> Lab Assistant</a>
+
+
+<a href="/view_transactions"><i class="fa fa-link"></i> Blockchain Logs</a>
+
+<a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+
+</div>
+
+
+<!-- TOPBAR -->
+<div class="topbar">
+
+<h3>Researcher Approval</h3>
+
+<div class="profile-menu">
+
+<span class="profile-name">
+<i class="fa fa-user-shield"></i> {{ admin }}
+</span>
+
+<a href="/logout" class="logout-btn">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<div class="page-title">
+
+<i class="fa fa-user-graduate"></i> Registered Researchers
+
+</div>
+
+
+<div class="table-box">
+
+<table>
+
+<tr>
+<th align="left">ID</th>
+<th align="left">Name</th>
+<th align="left">Contact</th>
+<th align="left">Organization</th>
+<th align="left">Location</th>
+<th align="left">Status</th>
+<th align="left">Action</th>
+</tr>
+
+{% for r in researchers %}
+
+<tr>
+
+<td>{{ r.id }}</td>
+
+<td>{{ r.name }}</td>
+
+<td>{{r.mobile}} <br> {{ r.email }}</td>
+
+<td>{{r.domain}} - {{ r.institution }}</td>
+
+<td>{{r.location}}</td>
+<td>
+
+{% if r.status == 1 %}
+
+<span class="status-approved">
+<i class="fa fa-check-circle"></i> Approved
+</span>
+
+{% else %}
+
+<span class="status-pending">
+<i class="fa fa-clock"></i> Pending
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+{% if r.status == "0" %}
+
+<a href="/approve_researcher?id={{ r.id }}" class="btn btn-approve">
+<i class="fa fa-check"></i> Approve
+</a>
+
+{% else %}
+
+<i class="fa fa-check-circle" style="color:green;"></i> Approved
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+
+<div class="footer">
+GeneNFT | Researcher Access Governance
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<html>
+<head>
+<title>GeneNFT | Key Management</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#eef2f7,#e3ecff);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+    position:fixed;
+    width:230px;
+    height:100%;
+    background: linear-gradient(180deg,#0f4c81,#1e6fd9,#2c9cff);
+    color:white;
+    padding-top:25px;
+}
+.sidebar h2{
+    text-align:center;
+    margin-bottom:40px;
+}
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:white;
+    padding:14px 25px;
+    text-decoration:none;
+    transition:0.3s;
+    font-size:14px;
+}
+.sidebar a:hover{
+    background:rgba(255,255,255,0.15);
+    padding-left:35px;
+    border-left:4px solid white;
+}
+
+/* ===== TOPBAR ===== */
+.topbar{
+    position:fixed;
+    left:230px;
+    right:0;
+    height:70px;
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    box-shadow:0 3px 15px rgba(0,0,0,0.08);
+}
+.topbar h3{
+    margin:0;
+    font-weight:600;
+    color:#2c3e50;
+}
+.profile-menu{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.profile-name{
+    font-weight:500;
+    color:#2c3e50;
+}
+
+.logout-btn{
+    background:#ff4d4d;
+    color:white;
+    padding:8px 15px;
+    border-radius:20px;
+    text-decoration:none;
+    font-size:14px;
+    transition:.3s;
+}
+/* ===== MAIN ===== */
+.main{
+    margin-left:230px;
+    padding:110px 30px 40px;
+}
+
+/* ===== CARD ===== */
+.card{
+    background:white;
+    border-radius:16px;
+    padding:30px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    border-top:4px solid #2c9cff;
+    margin-bottom:25px;
+    transition:0.3s;
+}
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* ===== BUTTON ===== */
+.btn-primary{
+    background:linear-gradient(90deg,#1e6fd9,#2c9cff);
+    color:white;
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    transition:0.3s;
+}
+.btn-primary:hover{
+    background:linear-gradient(90deg,#0f4c81,#1e6fd9);
+    transform:translateY(-2px);
+}
+
+/* ===== KEY BOX ===== */
+.key-box{
+    display:block;
+    padding:12px;
+    margin:12px 0;
+    border-radius:8px;
+    background:#f4f9ff;
+    border-left:4px solid #2c9cff;
+    font-family:monospace;
+    font-size:13px;
+    word-break:break-all;
+}
+
+/* ===== VIEW SECTION ===== */
+.view-section{
+    display:none;
+}
+
+select, input{
+    padding:8px 10px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    font-family:'Poppins';
+    font-size:13px;
+}
+
+select:focus, input:focus{
+    border-color:#2c9cff;
+    outline:none;
+    box-shadow:0 0 0 3px rgba(44,156,255,0.15);
+}
+
+/* Section title */
+.section-title{
+    font-size:18px;
+    font-weight:600;
+    margin-bottom:20px;
+    color:#2c3e50;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2><i class="fa fa-dna"></i> GeneNFT</h2>
+    <a href="/owner_home"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="/owner_key"><i class="fa fa-key"></i> Key Management</a>
+    <a href="/owner_upload"><i class="fa fa-upload"></i> Upload Genome</a>
+    <a href="/owner_files"><i class="fa fa-folder-open"></i> My Uploads</a>
+    <a href="/owner_earn"><i class="fa fa-coins"></i> Earnings</a>
+    <a href="/owner_block"><i class="fa fa-shield-alt"></i> Integrity Verification</a>
+    <a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <h3><i class="fa fa-key"></i> Key Management Panel</h3>
+	<div class="profile-menu">
+        <span class="profile-name">
+            <i class="fa fa-user-circle"></i> {{ data1[1] }}
+        </span>
+        <a href="/logout" class="logout-btn">
+            <i class="fa fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</div>
+
+<div class="main">
+
+<div class="card">
+
+<div class="section-title">
+    <i class="fa fa-lock"></i> Key Generation
+</div>
+{% if act != "done" %}
+
+<form method="post">
+<button type="submit" class="btn-small">Generate Key</button>
+</form>
+{% endif %}
+
+{% if act == "done" %}
+
+<div id="pubReal" class="key-box">
+<b>Public Key:</b><br>
+{{ data3.public_key }}
+</div>
+
+<div id="prReal" class="key-box">
+<b>Private Key:</b><br>
+{{ data3.private_key }}
+</div>
+
+{% for n in data3.nodes %}
+<div id="realNode{{loop.index}}" class="key-box">
+<b>Node {{loop.index}}:</b><br>
+{{ n }}
+</div>
+{% endfor %}
+
+<div id="pubHash" class="key-box">
+<b>Public Hash:</b><br>
+{{ data3.public_hash }}
+</div>
+
+<div id="prHash" class="key-box">
+<b>Private Hash:</b><br>
+{{ data3.private_hash }}
+</div>
+
+{% for h in pr_hash %}
+<div id="hashNode{{loop.index}}" class="key-box">
+<b>Node {{loop.index}} Hash:</b><br>
+{{ h }}
+</div>
+{% endfor %}
+
+{% endif %}
+
+</div>
+
+<!-- VIEW KEY SECTION -->
+<div id="viewSection" class="card view-section">
+
+<div class="section-title">
+    <i class="fa fa-eye"></i> View Key
+</div>
+
+<div style="display:flex;gap:15px;flex-wrap:wrap;align-items:center;">
+    <select id="keyType">
+        <option value="public">Public Key</option>
+        <option value="private">Private Key</option>
+    </select>
+
+    <input type="text" id="masterInput" placeholder="Enter Master Hash Key">
+
+    <button class="btn-primary" onclick="viewKey()">
+        <i class="fa fa-search"></i> View
+    </button>
+</div>
+
+<div id="displayArea" style="margin-top:20px;"></div>
+
+</div>
+
+</div>
+
+<script>
+{% if act == "done" %}
+
+let delay = 0;
+
+function showBox(id){
+    setTimeout(()=>{
+        let el = document.getElementById(id);
+        if(el){
+            el.style.display = "block";
+        }
+    }, delay);
+    delay += 1200;  // speed control (increase for slower)
+}
+
+/* Show in order */
+showBox("pubReal");
+showBox("prReal");
+
+{% for n in data3.nodes %}
+showBox("realNode{{loop.index}}");
+{% endfor %}
+
+showBox("pubHash");
+showBox("prHash");
+
+{% for h in pr_hash %}
+showBox("hashNode{{loop.index}}");
+{% endfor %}
+
+{% endif %}
+document.getElementById("viewSection").style.display="block";
+
+function viewKey(){
+    let type = document.getElementById("keyType").value;
+    let master = document.getElementById("masterInput").value;
+    let display = document.getElementById("displayArea");
+    display.innerHTML = "";
+
+    if(type === "public"){
+        display.innerHTML = "<div class='key-box' style='display:block;'>{{ data3.public_key }}</div>";
+        return;
+    }
+
+    if(master.trim() !== "{{ data3.master_key }}"){
+        alert("Incorrect Master Key ?");
+        return;
+    }
+
+    let nodes = {{ data3.nodes|tojson }};
+    let privateKey = "{{ data3.private_key }}";
+    let selected = nodes.sort(()=>0.5-Math.random()).slice(0,3);
+
+    let d = 0;
+    selected.forEach(node=>{
+        setTimeout(()=>{
+            display.innerHTML += "<div class='key-box' style='display:block;'>Node Share: "+node+"</div>";
+        }, d);
+        d += 1500;
+    });
+
+    setTimeout(()=>{
+        display.innerHTML += "<div class='key-box' style='display:block;'>Full Private Key: "+privateKey+"</div>";
+    }, d);
+}
+
+</script>
+
+</body>
+</html>

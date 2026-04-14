@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>GeneChain | Admin Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="../static/css/style2.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2><i class="fa fa-dna"></i> GeneChain</h2>
+
+    <a href="/admin"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="/view_res"><i class="fa fa-user-check"></i> Researcher Approval</a>
+    <a href="/view_owner"><i class="fa fa-users"></i> Lab Assistant</a>
+    <a href="/admin_send_approvals"><i class="fa fa-file-signature"></i> Send Approvals</a>
+    <a href="/view_transactions"><i class="fa fa-link"></i> Blockchain Logs</a>
+    <a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <h3>Admin Dashboard</h3>
+
+    <div class="profile-menu">
+        <span class="profile-name">
+            <i class="fa fa-user-shield"></i> {{ admin }}
+        </span>
+
+        <a href="/logout" class="logout-btn">
+            <i class="fa fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <div class="page-title">
+        <i class="fa fa-chart-pie"></i> System Overview
+    </div>
+
+
+    <div class="card-grid">
+
+        <!-- Data Owners -->
+        <div class="card">
+
+            <div class="nft-badge">
+                <i class="fa fa-users"></i> Users
+            </div>
+
+            <h4>Total Lab Assistant</h4>
+
+            <p class="count">
+                <i class="fa fa-user"></i> {{ total_owners }}
+            </p>
+
+        </div>
+
+
+        <!-- Researchers -->
+        <div class="card">
+
+            <div class="nft-badge">
+                <i class="fa fa-microscope"></i> Researchers
+            </div>
+
+            <h4>Total Researchers</h4>
+
+            <p class="count">
+                <i class="fa fa-user-graduate"></i> {{ total_researchers }}
+            </p>
+
+        </div>
+
+
+        <!-- Pending -->
+        <div class="card">
+
+            <div class="nft-badge">
+                <i class="fa fa-clock"></i> Pending
+            </div>
+
+            <h4>Pending Approvals</h4>
+
+            <p class="count">
+                <i class="fa fa-hourglass-half"></i> {{ pending_requests }}
+            </p>
+
+        </div>
+
+
+        <!-- Datasets -->
+        <div class="card">
+
+            <div class="nft-badge">
+                <i class="fa fa-database"></i> Datasets
+            </div>
+
+            <h4>Total Genome Datasets</h4>
+
+            <p class="count">
+                <i class="fa fa-dna"></i> {{ total_datasets }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        GeneChain | Privacy-Preserving Genomic Data Marketplace
+    </div>
+
+</div>
+
+</body>
+</html>

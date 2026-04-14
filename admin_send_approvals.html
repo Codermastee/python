@@ -1,0 +1,42 @@
+-- ============================================================
+--  GeneNFT – Real RSA-PSS Dual Digital Signature Migration
+--  Run once against your gene_nft database
+-- ============================================================
+
+-- 1. Lab Assistant RSA-PSS signature (Base64, ~344 chars for RSA-2048)
+ALTER TABLE gn_data_requests
+    ADD COLUMN IF NOT EXISTS owner_signature TEXT DEFAULT NULL
+    COMMENT 'Base64 RSA-PSS (SHA-256) signature from Lab Assistant private key';
+
+-- 2. Canonical message that the Lab Assistant signed (stored for admin verification)
+ALTER TABLE gn_data_requests
+    ADD COLUMN IF NOT EXISTS owner_sign_message TEXT DEFAULT NULL
+    COMMENT 'Exact canonical string signed by Lab Assistant — used for public key verification';
+
+-- 3. Admin approval state
+ALTER TABLE gn_data_requests
+    ADD COLUMN IF NOT EXISTS admin_approval VARCHAR(20) DEFAULT NULL
+    COMMENT 'NULL = owner not yet signed | Pending = awaiting admin | Approved = both RSA sigs verified';
+
+-- 4. Admin RSA-PSS co-signature (Base64)
+ALTER TABLE gn_data_requests
+    ADD COLUMN IF NOT EXISTS admin_signature TEXT DEFAULT NULL
+    COMMENT 'Base64 RSA-PSS (SHA-256) co-signature from Admin private key';
+
+-- 5. Canonical message that the Admin signed
+ALTER TABLE gn_data_requests
+    ADD COLUMN IF NOT EXISTS admin_sign_message TEXT DEFAULT NULL
+    COMMENT 'Exact canonical string signed by Admin — includes hash of owner signature';
+
+-- ============================================================
+--  Verification
+-- ============================================================
+SELECT column_name, data_type, column_comment
+FROM information_schema.columns
+WHERE table_schema = 'gene_nft'
+  AND table_name   = 'gn_data_requests'
+  AND column_name IN (
+      'owner_signature','owner_sign_message',
+      'admin_approval',
+      'admin_signature','admin_sign_message'
+  );

@@ -1,0 +1,79 @@
+<html>
+<head>
+<title>GeneNFT | My Uploaded Datasets</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="../static/css/style2.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2><i class="fa fa-dna"></i> GeneNFT</h2>
+    <a href="/owner_home"><i class="fa fa-chart-line"></i> Dashboard</a>
+	<a href="/owner_key"><i class="fa fa-key"></i> Key Management</a>
+    <a href="/owner_upload"><i class="fa fa-upload"></i> Upload Genome</a>
+    <a href="/owner_files"><i class="fa fa-folder-open"></i> My Uploads</a>
+    <a href="/owner_requests"><i class="fa fa-coins"></i> Data Requests</a>
+    <a href="/owner_block"><i class="fa fa-shield-alt"></i> Integrity Verification</a>
+    <a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <h3>My Uploaded Datasets</h3>
+	<div class="profile-menu">
+        <span class="profile-name">
+            <i class="fa fa-user-circle"></i> {{ data[1] }}
+        </span>
+        <a href="/logout" class="logout-btn">
+            <i class="fa fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <div class="page-title">
+        <i class="fa fa-database"></i> My Uploaded Genome Datasets
+    </div>
+
+    <div class="card-grid">
+        {% for d in datasets %}
+        <div class="card">
+
+            <div class="nft-badge">
+                <i class="fa fa-cube"></i> NFT Dataset
+            </div>
+
+            <h4>{{ d.title }}</h4>
+
+            <p><strong>Description:</strong> {{ d.description }}</p>
+            <p><strong>Allowed Analysis:</strong> {{ d.allowed_analysis }}</p>
+            <p><strong>Ethnicity:</strong> {{ d.ethnicity }}</p>
+
+            <p><strong>Price:</strong> 
+                <span class="price">
+                    &#8377; {{ d.price }} 
+                </span>
+            </p>
+
+            <p><strong>NFT Token:</strong></p>
+            <div class="code-style">{{ d.nft_token }}</div>
+
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="footer">
+        GeneNFT | Composable Genomic NFTs
+    </div>
+
+</div>
+
+</body>
+</html>

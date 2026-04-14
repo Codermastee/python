@@ -1,0 +1,198 @@
+<html>
+<head>
+<title>GeneNFT | Disease Search</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="../static/css/style2.css" rel="stylesheet">
+
+<style>
+
+.search-box{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+margin-bottom:25px;
+}
+
+.search-box input{
+width:70%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.search-box button{
+padding:10px 18px;
+background:#2c5364;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.search-box button:hover{
+background:#1f3b4d;
+}
+
+.result-box{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th{
+background:#203a43;
+color:white;
+padding:12px;
+}
+
+table td{
+padding:12px;
+border-bottom:1px solid #eee;
+}
+
+.req-btn{
+background:#27ae60;
+color:white;
+padding:6px 12px;
+border-radius:6px;
+text-decoration:none;
+font-size:13px;
+}
+
+.req-btn:hover{
+background:#1e874b;
+}
+.table-box{
+    overflow-x:auto;
+}
+
+.vcf-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+.vcf-table thead{
+    background:#2c9cff;
+    color:white;
+}
+
+.vcf-table th{
+    padding:10px;
+    text-align:left;
+}
+
+.vcf-table td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+.vcf-table tr:hover{
+    background:#f4f9ff;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<h2><i class="fa fa-dna"></i> GeneNFT</h2>
+
+
+<a href="/res_home"><i class="fa fa-chart-line"></i> Dashboard</a>
+
+<a href="/res_datasets"><i class="fa fa-database"></i> Browse Datasets</a>
+
+<a href="/res_purchases"><i class="fa fa-shopping-cart"></i> My Purchases</a>
+
+<!--<a href="/res_analysis"><i class="fa fa-flask"></i> Analysis History</a>-->
+
+<a href="/res_block"><i class="fa fa-link"></i> Blockchain Records</a>
+
+<a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+<!-- TOPBAR -->
+<div class="topbar">
+
+<h3>Disease Analysis</h3>
+
+<div class="profile-menu">
+
+<span class="profile-name">
+<i class="fa fa-user"></i> 
+</span>
+
+<a href="/logout" class="logout-btn">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+
+
+
+
+<!-- RESULTS -->
+
+<div class="card">
+
+    <h3 style="margin-bottom:15px;">
+        <i class="fa fa-dna"></i> VCF Data
+    </h3>
+
+    <div class="table-box" style="height:400px; overflow:auto">
+        <table class="vcf-table">
+            <thead>
+                <tr>
+                    {% for h in headers %}
+                    <th>{{ h }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    {% for col in row %}
+                    <td>{{ col }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+		
+    </div>
+<p align="center"><a href="/result?vfile={{vfile}}">Risk Score</a></p>
+</div>
+
+
+<div class="footer">
+GeneNFT | Secure Genomic Disease Search
+</div>
+
+</div>
+
+</body>
+</html>

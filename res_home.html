@@ -1,0 +1,175 @@
+<html>
+<head>
+<title>GeneNFT | Researcher Dashboard</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="../static/css/style2.css" rel="stylesheet">
+
+<style>
+
+.card-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h4{
+margin:0;
+color:#666;
+font-weight:500;
+}
+
+.count{
+font-size:30px;
+margin-top:10px;
+font-weight:600;
+color:#2c5364;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<h2><i class="fa fa-dna"></i> GeneNFT</h2>
+
+<a href="/res_home"><i class="fa fa-chart-line"></i> Dashboard</a>
+
+<a href="/res_datasets"><i class="fa fa-database"></i> Browse Datasets</a>
+
+<a href="/res_purchases"><i class="fa fa-shopping-cart"></i> My Purchases</a>
+
+<!--<a href="/res_analysis"><i class="fa fa-flask"></i> Analysis History</a>-->
+
+<a href="/res_block"><i class="fa fa-link"></i> Blockchain Records</a>
+
+<a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+
+</div>
+
+
+<!-- TOPBAR -->
+<div class="topbar">
+
+<h3>Researcher Dashboard</h3>
+
+<div class="profile-menu">
+
+<span class="profile-name">
+<i class="fa fa-user"></i> {{ data[1] }}
+</span>
+
+<a href="/logout" class="logout-btn">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<div class="page-title">
+<i class="fa fa-microscope"></i> Researcher Overview
+</div>
+
+
+<div class="card-grid">
+
+<!-- Available Datasets -->
+<div class="card">
+
+<div class="nft-badge">
+<i class="fa fa-database"></i>
+</div>
+
+<h4>Available Genome Datasets</h4>
+
+<div class="count">
+{{ total_datasets }}
+</div>
+
+</div>
+
+
+<!-- Purchased -->
+<div class="card">
+
+<div class="nft-badge">
+<i class="fa fa-shopping-bag"></i>
+</div>
+
+<h4>Purchased Datasets</h4>
+
+<div class="count">
+{{ purchased }}
+</div>
+
+</div>
+
+
+<!-- Analysis -->
+<div class="card">
+
+<div class="nft-badge">
+<i class="fa fa-flask"></i>
+</div>
+
+<h4>Analysis Completed</h4>
+
+<div class="count">
+{{ analysis }}
+</div>
+
+</div>
+
+
+<!-- Blockchain Records -->
+<div class="card">
+
+<div class="nft-badge">
+<i class="fa fa-link"></i>
+</div>
+
+<h4>Blockchain Transactions</h4>
+
+<div class="count">
+{{ transactions }}
+</div>
+
+</div>
+
+</div>
+
+
+<div class="footer">
+GeneNFT | Decentralized Genomic Research Marketplace
+</div>
+
+</div>
+
+</body>
+</html>

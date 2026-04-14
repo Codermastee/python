@@ -1,0 +1,191 @@
+<html>
+<head>
+<title>GeneNFT | Browse Datasets</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="../static/css/style2.css" rel="stylesheet">
+
+<style>
+
+.card-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+}
+
+.card{
+background:white;
+padding:22px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+transition:.3s;
+position:relative;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h4{
+margin-top:5px;
+font-weight:500;
+}
+
+.nft-badge{
+position:absolute;
+top:15px;
+right:15px;
+background:#2c5364;
+color:white;
+padding:4px 10px;
+border-radius:5px;
+font-size:12px;
+}
+
+.price{
+font-size:18px;
+font-weight:600;
+color:#2c5364;
+}
+
+.buy-btn{
+display:inline-block;
+margin-top:10px;
+background:#27ae60;
+color:white;
+padding:8px 14px;
+border-radius:6px;
+text-decoration:none;
+font-size:13px;
+}
+
+.buy-btn:hover{
+background:#219150;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+<h2><i class="fa fa-dna"></i> GeneNFT</h2>
+
+<a href="/researcher_home"><i class="fa fa-chart-line"></i> Dashboard</a>
+
+<a href="/researcher_datasets"><i class="fa fa-database"></i> Browse Datasets</a>
+
+<a href="/researcher_purchase"><i class="fa fa-shopping-cart"></i> My Purchases</a>
+
+<a href="/researcher_analysis"><i class="fa fa-flask"></i> Analysis History</a>
+
+<a href="/researcher_block"><i class="fa fa-link"></i> Blockchain Records</a>
+
+<a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+
+</div>
+
+
+<!-- TOPBAR -->
+<div class="topbar">
+
+<h3>Browse Genome Datasets</h3>
+
+
+
+<div class="profile-menu">
+
+
+
+<span class="profile-name">
+
+
+<form method="post" action="/search_disease">
+
+<input type="text" name="disease" placeholder="Search disease (e.g. Cancer, Diabetes)" required>
+
+<button type="submit">
+<i class="fa fa-search"></i> Search
+</button>
+
+</form>
+
+<i class="fa fa-user"></i> {{ data[1] }}
+</span>
+
+<a href="/logout" class="logout-btn">
+<i class="fa fa-sign-out-alt"></i> Logout
+</a>
+
+</div>
+
+</div>
+
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<div class="page-title">
+<i class="fa fa-database"></i> Available Genome NFT Datasets
+</div>
+
+
+<div class="card-grid">
+
+{% for d in datasets %}
+
+<div class="card">
+
+<div class="nft-badge">
+<i class="fa fa-cube"></i> NFT
+</div>
+
+<h4>{{ d.title }}</h4>
+
+<p><strong>Description:</strong> {{ d.description }}</p>
+
+<p><strong>Allowed Analysis:</strong> {{ d.allowed_analysis }}</p>
+
+<p><strong>Ethnicity:</strong> {{ d.ethnicity }}</p>
+
+<p><strong>Owner:</strong> {{ d.owner }}</p>
+
+<p><strong>Price:</strong>  
+<span class="price">
+<i class="fa-brands fa-ethereum"></i> {{ d.price }} ETH
+</span>
+</p>
+
+<p><strong>NFT Token:</strong></p>
+
+<div class="code-style">
+{{ d.nft_token }}
+</div>
+
+<a href="/buy_dataset?id={{ d.id }}" class="buy-btn">
+<i class="fa fa-shopping-cart"></i> Purchase Dataset
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+<div class="footer">
+GeneNFT | Decentralized Genomic Data Marketplace
+</div>
+
+</div>
+
+</body>
+</html>

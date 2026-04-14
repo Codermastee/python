@@ -1,0 +1,314 @@
+<html>
+<head>
+<title>GeneNFT | Key Management</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#eef2f7,#e3ecff);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+    position:fixed;
+    width:230px;
+    height:100%;
+    background:linear-gradient(180deg,#0f4c81,#1e6fd9,#2c9cff);
+    color:white;
+    padding-top:25px;
+}
+.sidebar h2{
+    text-align:center;
+    margin-bottom:40px;
+    font-weight:600;
+}
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:white;
+    padding:14px 25px;
+    text-decoration:none;
+    transition:0.3s;
+    font-size:14px;
+}
+.sidebar a:hover{
+    background:rgba(255,255,255,0.15);
+    padding-left:35px;
+    border-left:4px solid white;
+}
+
+/* ===== TOPBAR ===== */
+.topbar{
+    position:fixed;
+    left:230px;
+    right:0;
+    height:70px;
+    background:white;
+    display:flex;
+    align-items:center;
+    padding:0 30px;
+    box-shadow:0 3px 15px rgba(0,0,0,0.08);
+    font-weight:600;
+    color:#2c3e50;
+}
+
+/* ===== MAIN ===== */
+.main{
+    margin-left:230px;
+    padding:120px 30px 40px;
+}
+
+/* ===== CARD ===== */
+.card{
+    background:white;
+    border-radius:16px;
+    padding:30px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    border-top:4px solid #2c9cff;
+    transition:0.3s;
+}
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+
+/* ===== BUTTON ===== */
+.btn-small{
+    background:linear-gradient(90deg,#1e6fd9,#2c9cff);
+    color:white;
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    font-size:14px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.btn-small:hover{
+    background:linear-gradient(90deg,#0f4c81,#1e6fd9);
+    transform:translateY(-2px);
+}
+
+/* ===== KEY BOX ===== */
+.key-box{
+    display:none;
+    padding:14px;
+    margin:14px 0;
+    border-radius:10px;
+    background:#f4f9ff;
+    border-left:5px solid #2c9cff;
+    font-family:monospace;
+    font-size:13px;
+    word-break:break-all;
+    box-shadow:0 3px 8px rgba(0,0,0,0.05);
+}
+
+/* ===== VIEW SECTION ===== */
+.view-section{
+    display:none;
+    margin-top:25px;
+}
+
+input, select{
+    padding:8px 12px;
+    border-radius:8px;
+    border:1px solid #ddd;
+    font-family:'Poppins';
+    font-size:13px;
+}
+
+input:focus, select:focus{
+    border-color:#2c9cff;
+    outline:none;
+    box-shadow:0 0 0 3px rgba(44,156,255,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2><i class="fa fa-dna"></i> GeneNFT</h2>
+    <a href="/owner_home"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="/owner_key"><i class="fa fa-key"></i> Key Management</a>
+    <a href="/owner_upload"><i class="fa fa-upload"></i> Upload Genome</a>
+    <a href="/owner_files"><i class="fa fa-folder-open"></i> My Uploads</a>
+    <a href="/owner_requests"><i class="fa fa-coins"></i> Data Requests</a>
+    <a href="/owner_block"><i class="fa fa-shield-alt"></i> Integrity Verification</a>
+    <a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <i class="fa fa-key"></i> &nbsp; Key Management Panel
+</div>
+
+<div class="main">
+
+
+
+<div class="card">
+<h3 style="text-align:center;margin-bottom:25px;">
+<i class="fa fa-lock"></i> Key Generation
+</h3>
+{% if act != "done" %}
+
+<form method="post">
+<div align="center"><button type="submit" class="btn-small">Generate Key</button></div>
+</form>
+{% endif %}
+
+<!-- REAL KEYS -->
+<div id="pubReal" class="key-box">Public Key: {{ data3.public_key }}</div>
+<div id="prReal" class="key-box">Private Key: {{ data3.private_key }}</div>
+
+{% for n in data3.nodes %}
+<div id="realNode{{loop.index}}" class="key-box">
+Node {{loop.index}}: {{ n }}
+</div>
+{% endfor %}
+
+<!-- HASHED KEYS -->
+<div id="pubHash" class="key-box">Public Key: {{ data3.public_hash }}</div>
+<div id="prHash" class="key-box">Private Key: {{ data3.private_hash }}</div>
+
+{% for h in pr_hash %}
+<div id="hashNode{{loop.index}}" class="key-box">
+Node {{loop.index}}: {{ h }}
+</div>
+{% endfor %}
+
+</div>
+
+<!-- VIEW KEY SECTION -->
+<div id="viewSection" class="card view-section">
+<h4 style="margin-bottom:20px;">View Key</h4>
+
+<div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:center;">
+
+    <select id="keyType" style="
+        width:150px;
+        height:36px;
+        font-size:13px;
+        border-radius:6px;
+        border:1px solid #ccc;">
+        <option value="public">Public Key</option>
+        <option value="private">Private Key</option>
+    </select>
+
+    <input type="text" id="masterInput" placeholder="Enter Master Hash Key"
+    style="
+        width:220px;
+        height:34px;
+        font-size:13px;
+        padding-left:10px;
+        border-radius:6px;
+        border:1px solid #ccc;">
+
+    <button class="btn-small"
+    style="height:34px; padding:0 18px;"
+    onclick="viewKey()">
+        View
+    </button>
+
+</div>
+
+<div id="displayArea" style="margin-top:20px;"></div>
+</div>
+
+<!-- EMAIL AUTO SEND -->
+{% if act == "done" %}
+<iframe 
+src="http://iotcloud.co.in/testmail/testmail1.php?message={{mess}}&email={{email}}&subject=Master Key"
+width="1" height="1" style="display:none;">
+</iframe>
+{% endif %}
+
+<script>
+
+{% if act == "done" %}
+
+let delay = 0;
+
+function show(id){
+    setTimeout(()=>{
+        document.getElementById(id).style.display="block";
+    }, delay);
+    delay += 1500;
+}
+
+/* Show real keys */
+show("pubReal");
+show("prReal");
+{% for n in data3.nodes %}
+show("realNode{{loop.index}}");
+{% endfor %}
+
+/* Hide real keys */
+setTimeout(()=>{
+    document.getElementById("pubReal").style.display="none";
+    document.getElementById("prReal").style.display="none";
+    {% for n in data3.nodes %}
+    document.getElementById("realNode{{loop.index}}").style.display="none";
+    {% endfor %}
+}, delay + 1000);
+
+/* Show hashed */
+delay += 2000;
+show("pubHash");
+show("prHash");
+{% for h in pr_hash %}
+show("hashNode{{loop.index}}");
+{% endfor %}
+
+/* Show view section */
+/*setTimeout(()=>{
+    document.getElementById("viewSection").style.display="block";
+}, delay + 2000);*/
+
+{% endif %}
+document.getElementById("viewSection").style.display="block";
+function viewKey(){
+
+    let type = document.getElementById("keyType").value;
+    let master = document.getElementById("masterInput").value;
+    let display = document.getElementById("displayArea");
+    display.innerHTML = "";
+
+    if(type === "public"){
+        display.innerHTML = "<div class='key-box' style='display:block;'>{{ data3.public_key }}</div>";
+        return;
+    }
+
+    if(master !== "{{ data3.master_key }}"){
+        alert("Incorrect Master Key");
+        return;
+    }
+
+    let nodes = {{ data3.nodes|tojson }};
+    let privateKey = "{{ data3.private_key }}";
+
+    let selected = nodes.sort(()=>0.5-Math.random()).slice(0,3);
+
+    let d = 0;
+
+    selected.forEach(node=>{
+        setTimeout(()=>{
+            display.innerHTML += "<div class='key-box' style='display:block;'>Node Share: "+node+"</div>";
+        }, d);
+        d += 1500;
+    });
+
+    setTimeout(()=>{
+        display.innerHTML += "<div class='key-box' style='display:block;'>Full Private Key: "+privateKey+"</div>";
+    }, d);
+}
+</script>
+
+</body>
+</html>

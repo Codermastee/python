@@ -1,0 +1,100 @@
+<html>
+<head>
+<title>GeneNFT | Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="../static/css/style2.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2><i class="fa fa-dna"></i> GeneNFT</h2>
+
+    <a href="/owner_home"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="/owner_key"><i class="fa fa-key"></i> Key Management</a>
+    <a href="/owner_upload"><i class="fa fa-upload"></i> Upload Genome</a>
+    <a href="/owner_files"><i class="fa fa-folder-open"></i> My Uploads</a>
+    <a href="/owner_requests"><i class="fa fa-coins"></i> Data Requests</a>
+    <a href="/owner_block"><i class="fa fa-shield-alt"></i> Integrity Verification</a>
+	<a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <h3>Data Owner Dashboard</h3>
+
+    <div class="profile-menu">
+        <span class="profile-name">
+            <i class="fa fa-user-circle"></i> {{ data[1] }}
+        </span>
+        <a href="/logout" class="logout-btn">
+            <i class="fa fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <!-- Profile Banner -->
+    <div class="profile-header">
+        <h2>{{ data[1] }}</h2>
+        <p>Secure Genomic Data Owner | Blockchain Verified Identity</p>
+    </div>
+
+    <!-- Information Cards -->
+    <div class="info-section">
+
+        <div class="card">
+            <h4><i class="fa fa-id-card"></i> Personal Information</h4>
+
+            <div class="label">Gender</div>
+            <div class="value">{{ data[3] }}</div>
+
+            <div class="label">Date of Birth</div>
+            <div class="value">{{ data[2] }}</div>
+
+            <div class="label">Email</div>
+            <div class="value">{{ data[5] }}</div>
+
+            <div class="label">Phone</div>
+            <div class="value">{{ data[4] }}</div>
+
+            <div class="label">Country</div>
+            <div class="value">{{ data[7] }}</div>
+        </div>
+
+        <div class="card">
+            <h4><i class="fa fa-wallet"></i> Blockchain Identity</h4>
+
+            <div class="label">Wallet Address</div>
+            <div class="wallet">{{ data[11] }}</div>
+
+            <div class="label">Status</div>
+            <span class="badge">Verified Owner</span>
+        </div>
+
+        <div class="card">
+            <h4><i class="fa fa-user-lock"></i> Account Details</h4>
+
+            <div class="label">User ID</div>
+            <div class="value">{{ data[8] }}</div>
+
+            <div class="label">Registered On</div>
+            <div class="value">{{ data[14] }} {{data[15]}}</div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        GeneNFT | Composable Genomic NFTs
+    </div>
+
+</div>
+
+</body>
+</html>

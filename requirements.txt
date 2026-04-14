@@ -1,0 +1,11 @@
+Flask
+gunicorn
+psycopg2-binary
+cryptography
+matplotlib
+pandas
+numpy
+Pillow
+shamir-mnemonic
+pycryptodome
+phe

@@ -1,0 +1,356 @@
+<html>
+<head>
+<title>GeneNFT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<link href="../static/css/style2.css" rel="stylesheet">
+<style>
+
+.search-box{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+margin-bottom:25px;
+}
+
+.search-box input{
+width:70%;
+padding:10px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+.search-box button{
+padding:10px 18px;
+background:#2c5364;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.search-box button:hover{
+background:#1f3b4d;
+}
+
+.result-box{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th{
+background:#203a43;
+color:white;
+padding:12px;
+}
+
+table td{
+padding:12px;
+border-bottom:1px solid #eee;
+}
+
+.req-btn{
+background:#27ae60;
+color:white;
+padding:6px 12px;
+border-radius:6px;
+text-decoration:none;
+font-size:13px;
+}
+
+.req-btn:hover{
+background:#1e874b;
+}
+/* CARD CONTAINER */
+.card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow-x: auto;
+}
+
+/* TABLE */
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+/* HEADER */
+.styled-table thead {
+    background: #4f46e5;
+    color: #fff;
+}
+
+.styled-table th {
+    text-align: left;
+    padding: 12px 14px;
+    font-weight: 600;
+}
+
+/* BODY */
+.styled-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+/* ROW HOVER */
+.styled-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+/* PRICE */
+.price {
+    font-weight: bold;
+    color: #16a34a;
+}
+
+/* STATUS BADGES */
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.pending {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.approved {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.rejected {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* ACTION BUTTONS */
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.accept {
+    background: #22c55e;
+    color: white;
+}
+
+.accept:hover {
+    background: #16a34a;
+}
+
+.reject {
+    background: #ef4444;
+    color: white;
+}
+
+.reject:hover {
+    background: #dc2626;
+}
+
+/* EMPTY STATE */
+.empty {
+    text-align: center;
+    padding: 40px;
+    color: #888;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .styled-table th,
+    .styled-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+}
+</style>
+
+<style>
+body{
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(135deg,#eef2f7,#e3ecff);
+    margin:0;
+}
+
+/* CONTAINER */
+.container{
+    width:90%;
+    max-width:900px;
+    margin:60px auto;
+}
+
+/* CARD */
+.card{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* TITLE */
+h2{
+    margin-bottom:20px;
+}
+
+/* FORM */
+input{
+    padding:10px;
+    width:250px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    background:#2c9cff;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:25px;
+}
+
+th{
+    background:#2c9cff;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+
+tr:hover{
+    background:#f4f9ff;
+}
+
+/* BADGES */
+.high{color:red;font-weight:bold;}
+.medium{color:orange;font-weight:bold;}
+.low{color:green;font-weight:bold;}
+
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2><i class="fa fa-dna"></i> GeneNFT</h2>
+    <a href="/res_home"><i class="fa fa-chart-line"></i> Dashboard</a>
+
+<a href="/res_datasets"><i class="fa fa-database"></i> Browse Datasets</a>
+
+<a href="/res_purchases"><i class="fa fa-shopping-cart"></i> My Purchases</a>
+
+
+
+<a href="/res_block"><i class="fa fa-link"></i> Blockchain Records</a>
+
+<a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <h3>Researcher Requests/Purchases</h3>
+	<div class="profile-menu">
+        <span class="profile-name">
+            <i class="fa fa-user-circle"></i> 
+        </span>
+        <a href="/logout" class="logout-btn">
+            <i class="fa fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+    <div class="page-title">
+        <i class="fa fa-database"></i> Risk Score
+    </div>
+
+	
+	<div class="container">
+
+<div class="card">
+
+<h2>Disease Risk Analysis</h2>
+
+
+{% if result %}
+<table>
+    <tr>
+        <th>Disease</th>
+        <th>Risk Score</th>
+        <th>Category</th>
+        <th>Main Variant</th>
+        <th>No. of Variants</th>
+    </tr>
+
+    <tr>
+        <td>{{ result.disease }}</td>
+        <td>{{ result.score }}%</td>
+
+        <td class="
+        {% if result.category=='High' %}high
+        {% elif result.category=='Medium' %}medium
+        {% else %}low
+        {% endif %}
+        ">
+        {{ result.category }}
+        </td>
+
+        <td>{{ result.variant }}</td>
+        <td>{{ result.count }}</td>
+    </tr>
+</table>
+{% endif %}
+
+</div>
+</div>
+
+
+    <div class="footer">
+        GeneNFT | Composable Genomic NFTs
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,710 @@
+<html>
+<head>
+<title>GeneNFT | Payment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #eef2f7, #e3ecff);
+    min-height: 100vh;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+    position: fixed;
+    width: 230px;
+    height: 100%;
+    background: linear-gradient(180deg, #0f4c81, #1e6fd9, #2c9cff);
+    color: white;
+    padding-top: 25px;
+    z-index: 100;
+}
+.sidebar h2 { text-align: center; margin-bottom: 40px; font-weight: 600; }
+.sidebar a {
+    display: flex; align-items: center; gap: 10px;
+    color: white; padding: 14px 25px; text-decoration: none;
+    transition: 0.3s; font-size: 14px;
+}
+.sidebar a:hover {
+    background: rgba(255,255,255,0.15);
+    padding-left: 35px;
+    border-left: 4px solid white;
+}
+
+/* ===== TOPBAR ===== */
+.topbar {
+    position: fixed; left: 230px; right: 0; height: 70px;
+    background: white; display: flex; align-items: center;
+    padding: 0 30px; box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    font-weight: 600; color: #2c3e50; font-size: 17px; gap: 10px;
+    z-index: 99;
+}
+
+/* ===== MAIN ===== */
+.main {
+    margin-left: 230px;
+    padding: 100px 30px 40px;
+}
+
+/* ===== STEP CARDS ===== */
+.steps-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+.step-card {
+    flex: 1;
+    min-width: 140px;
+    background: white;
+    border-radius: 12px;
+    padding: 16px 18px;
+    border-left: 4px solid #e2e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #94a3b8;
+    transition: 0.3s;
+}
+.step-card.active { border-left-color: #2c9cff; color: #1e40af; background: #eff6ff; }
+.step-card.done   { border-left-color: #22c55e; color: #15803d; background: #f0fdf4; }
+.step-card .step-icon { font-size: 20px; flex-shrink: 0; }
+.step-card .step-label { font-weight: 600; font-size: 12px; }
+.step-card .step-sub   { font-size: 11px; opacity: 0.8; }
+
+/* ===== CARD ===== */
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 30px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+    border-top: 4px solid #2c9cff;
+    margin-bottom: 24px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ===== UPI FORM ===== */
+.payment-box {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.input-group { display: flex; flex-direction: column; }
+.input-group label { font-size: 12px; color: #64748b; margin-bottom: 6px; font-weight: 500; }
+.input-group input {
+    width: 280px;
+    height: 42px;
+    padding: 0 14px;
+    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    transition: 0.25s;
+    background: #f8fafc;
+}
+.input-group input:focus {
+    border-color: #2c9cff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(44,156,255,0.12);
+    background: white;
+}
+
+.btn-pay {
+    height: 42px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #16a34a, #22c55e);
+    color: white;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-pay:hover {
+    background: linear-gradient(90deg, #15803d, #16a34a);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(22,163,74,0.3);
+}
+
+/* ===== DIVIDER ===== */
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 24px 0;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+.divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+/* ===== UPLOAD ZONE ===== */
+.upload-zone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 36px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.25s;
+    background: #f8fafc;
+    position: relative;
+}
+.upload-zone:hover, .upload-zone.drag-over {
+    border-color: #2c9cff;
+    background: #eff6ff;
+}
+.upload-zone input[type=file] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+.upload-icon {
+    font-size: 36px;
+    color: #94a3b8;
+    margin-bottom: 10px;
+    display: block;
+    transition: 0.25s;
+}
+.upload-zone:hover .upload-icon { color: #2c9cff; }
+.upload-zone p { margin: 0; font-size: 13px; color: #64748b; }
+.upload-zone .upload-hint { font-size: 11px; color: #94a3b8; margin-top: 6px; }
+
+/* file chosen state */
+.file-chosen {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    background: #f0fdf4;
+    border: 1.5px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #166534;
+}
+.file-chosen i { font-size: 20px; color: #16a34a; }
+.file-chosen .file-name { font-weight: 500; flex: 1; }
+.file-chosen .remove-file { cursor: pointer; color: #dc2626; font-size: 16px; }
+
+/* ===== ANALYSE BUTTON ===== */
+.btn-analyse {
+    margin-top: 18px;
+    padding: 11px 28px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #7c3aed, #a855f7);
+    color: white;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-analyse:hover {
+    background: linear-gradient(90deg, #6d28d9, #7c3aed);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(124,58,237,0.3);
+}
+.btn-analyse:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ===== SCANNING ANIMATION ===== */
+.scan-bar {
+    display: none;
+    margin-top: 18px;
+    background: #f1f5f9;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 6px;
+}
+.scan-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #7c3aed, #2c9cff);
+    border-radius: 8px;
+    transition: width 0.3s ease;
+}
+.scan-status {
+    display: none;
+    margin-top: 10px;
+    font-size: 12px;
+    color: #7c3aed;
+    font-weight: 500;
+    display: none;
+    align-items: center;
+    gap: 6px;
+}
+.scan-status i { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== RESULT PANEL ===== */
+.result-panel {
+    display: none;
+    margin-top: 22px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid #e2e8f0;
+}
+.result-header {
+    padding: 14px 18px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.result-header.safe    { background: #f0fdf4; color: #15803d; border-bottom: 1px solid #bbf7d0; }
+.result-header.warning { background: #fffbeb; color: #b45309; border-bottom: 1px solid #fde68a; }
+.result-header.danger  { background: #fff1f2; color: #be123c; border-bottom: 1px solid #fecdd3; }
+
+.result-body { padding: 18px 20px; background: #fafafa; }
+
+.check-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.check-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: #475569;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #f1f5f9;
+}
+.check-list li .check-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.check-list li .check-icon.ok      { color: #16a34a; }
+.check-list li .check-icon.warn    { color: #d97706; }
+.check-list li .check-icon.fail    { color: #dc2626; }
+.check-list li .check-text { flex: 1; }
+.check-list li .check-label { font-weight: 600; display: block; margin-bottom: 2px; color: #1e293b; }
+
+.fraud-score-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    padding: 14px 16px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+.score-label { font-size: 12px; color: #64748b; font-weight: 500; }
+.score-bar-wrap { flex: 1; background: #f1f5f9; border-radius: 20px; height: 10px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 20px; transition: width 0.6s ease; }
+.score-bar-fill.low    { background: linear-gradient(90deg, #22c55e, #4ade80); }
+.score-bar-fill.medium { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.score-bar-fill.high   { background: linear-gradient(90deg, #ef4444, #f87171); }
+.score-value { font-size: 15px; font-weight: 700; min-width: 40px; text-align: right; }
+.score-value.low    { color: #16a34a; }
+.score-value.medium { color: #d97706; }
+.score-value.high   { color: #dc2626; }
+
+/* verdict badge */
+.verdict {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-top: 14px;
+}
+.verdict.safe    { background: #dcfce7; color: #15803d; }
+.verdict.warning { background: #fef3c7; color: #92400e; }
+.verdict.danger  { background: #fee2e2; color: #991b1b; }
+
+/* ===== ALERTS ===== */
+.alert {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 13px;
+}
+.alert i { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.alert-success { background: #dcfce7; border-left: 4px solid #16a34a; color: #166534; }
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2><i class="fa fa-dna"></i> GeneNFT</h2>
+    <a href="/res_home"><i class="fa fa-chart-line"></i> Dashboard</a>
+    <a href="/res_datasets"><i class="fa fa-database"></i> Browse Datasets</a>
+    <a href="/res_purchases"><i class="fa fa-shopping-cart"></i> My Purchases</a>
+    <a href="/res_block"><i class="fa fa-link"></i> Blockchain Records</a>
+    <a href="/logout"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+    <i class="fa fa-credit-card" style="color:#2c9cff"></i> Payment
+</div>
+
+<div class="main">
+
+    <!-- PROGRESS STEPS -->
+    <div class="steps-row">
+        <div class="step-card done">
+            <i class="fa fa-check-circle step-icon" style="color:#22c55e"></i>
+            <div><div class="step-label">Request Sent</div><div class="step-sub">Approved by owner</div></div>
+        </div>
+        <div class="step-card active">
+            <i class="fa fa-credit-card step-icon" style="color:#2c9cff"></i>
+            <div><div class="step-label">Payment</div><div class="step-sub">Complete payment</div></div>
+        </div>
+        <div class="step-card">
+            <i class="fa fa-user-shield step-icon"></i>
+            <div><div class="step-label">Admin Approval</div><div class="step-sub">Pending</div></div>
+        </div>
+        <div class="step-card">
+            <i class="fa fa-unlock step-icon"></i>
+            <div><div class="step-label">Data Released</div><div class="step-sub">Download ready</div></div>
+        </div>
+    </div>
+
+    {% if msg=="success" %}
+    <div class="alert alert-success">
+        <i class="fa fa-check-circle"></i>
+        <div><strong>Payment Successful!</strong> Redirecting to your purchases…</div>
+    </div>
+    <script>
+    setTimeout(function(){ window.location.href = '/res_purchases'; }, 2000);
+    </script>
+    {% endif %}
+
+    <!-- PAYMENT CARD -->
+    <div class="card">
+        <div class="section-title">
+            <i class="fa fa-credit-card" style="color:#2c9cff"></i> Make Payment
+        </div>
+
+        <form name="form1" method="post">
+            <div class="payment-box">
+                <div class="input-group">
+                    <label><i class="fa fa-at"></i> UPI ID</label>
+                    <input type="text" name="pay" id="pay" placeholder="yourname@upi" required>
+                </div>
+                <button type="submit" class="btn-pay">
+                    <i class="fa fa-paper-plane"></i> Pay Now
+                </button>
+            </div>
+        </form>
+
+        <div class="divider">or upload transaction receipt for verification</div>
+
+        <!-- UPLOAD ZONE -->
+        <div class="upload-zone" id="uploadZone">
+            <input type="file" id="txnFile" accept=".pdf,.png,.jpg,.jpeg,.csv,.txt" onchange="handleFileSelect(this)">
+            <span class="upload-icon"><i class="fa fa-file-arrow-up"></i></span>
+            <p><strong>Drop your transaction receipt here</strong></p>
+            <p class="upload-hint">Supported: PDF, PNG, JPG, CSV, TXT &nbsp;·&nbsp; Max 5 MB</p>
+        </div>
+
+        <!-- FILE CHOSEN -->
+        <div class="file-chosen" id="fileChosen">
+            <i class="fa fa-file-check"></i>
+            <span class="file-name" id="fileName">—</span>
+            <span class="file-size" id="fileSize" style="font-size:11px;color:#64748b"></span>
+            <i class="fa fa-times remove-file" onclick="removeFile()" title="Remove"></i>
+        </div>
+
+        <!-- ANALYSE BUTTON -->
+        <br>
+        <button class="btn-analyse" id="analyseBtn" disabled onclick="runFraudCheck()">
+            <i class="fa fa-shield-halved"></i> Check for Fraud
+        </button>
+
+        <!-- PROGRESS BAR -->
+        <div class="scan-bar" id="scanBar">
+            <div class="scan-bar-fill" id="scanFill"></div>
+        </div>
+        <div class="scan-status" id="scanStatus" style="display:none">
+            <i class="fa fa-spinner"></i> <span id="scanMsg">Analysing transaction…</span>
+        </div>
+
+        <!-- RESULT PANEL -->
+        <div class="result-panel" id="resultPanel">
+            <div class="result-header" id="resultHeader"></div>
+            <div class="result-body">
+                <ul class="check-list" id="checkList"></ul>
+                <div class="fraud-score-row">
+                    <span class="score-label">Fraud Risk Score</span>
+                    <div class="score-bar-wrap">
+                        <div class="score-bar-fill" id="scoreBar"></div>
+                    </div>
+                    <span class="score-value" id="scoreVal"></span>
+                </div>
+                <div id="verdictBadge"></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+// ── Drag & Drop ──
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    const f = e.dataTransfer.files[0];
+    if (f) applyFile(f);
+});
+
+function handleFileSelect(input) {
+    if (input.files && input.files[0]) applyFile(input.files[0]);
+}
+
+let selectedFile = null;
+
+function applyFile(file) {
+    const maxMB = 5;
+    if (file.size > maxMB * 1024 * 1024) {
+        alert('File is too large. Maximum size is 5 MB.');
+        return;
+    }
+    selectedFile = file;
+    document.getElementById('fileName').textContent = file.name;
+    document.getElementById('fileSize').textContent = (file.size / 1024).toFixed(1) + ' KB';
+    document.getElementById('fileChosen').style.display = 'flex';
+    document.getElementById('analyseBtn').disabled = false;
+    // reset any previous result
+    document.getElementById('resultPanel').style.display = 'none';
+    document.getElementById('scanBar').style.display = 'none';
+    document.getElementById('scanStatus').style.display = 'none';
+}
+
+function removeFile() {
+    selectedFile = null;
+    document.getElementById('txnFile').value = '';
+    document.getElementById('fileChosen').style.display = 'none';
+    document.getElementById('analyseBtn').disabled = true;
+    document.getElementById('resultPanel').style.display = 'none';
+    document.getElementById('scanBar').style.display = 'none';
+    document.getElementById('scanStatus').style.display = 'none';
+}
+
+// ── Fraud Check ──
+function runFraudCheck() {
+    if (!selectedFile) return;
+
+    document.getElementById('analyseBtn').disabled = true;
+    document.getElementById('resultPanel').style.display = 'none';
+
+    // show progress bar
+    const bar = document.getElementById('scanBar');
+    const fill = document.getElementById('scanFill');
+    const status = document.getElementById('scanStatus');
+    const msg = document.getElementById('scanMsg');
+    bar.style.display = 'block';
+    status.style.display = 'flex';
+    fill.style.width = '0%';
+
+    const steps = [
+        [15, 'Reading transaction file…'],
+        [35, 'Extracting metadata…'],
+        [55, 'Checking transaction ID…'],
+        [72, 'Validating amount & timestamp…'],
+        [88, 'Running fraud pattern analysis…'],
+        [100, 'Finalising report…']
+    ];
+
+    let i = 0;
+    const interval = setInterval(() => {
+        if (i >= steps.length) {
+            clearInterval(interval);
+            setTimeout(() => analyseFile(), 400);
+            return;
+        }
+        fill.style.width = steps[i][0] + '%';
+        msg.textContent = steps[i][1];
+        i++;
+    }, 420);
+}
+
+function analyseFile() {
+    const file = selectedFile;
+    const name = file.name.toLowerCase();
+    const size = file.size;
+    const now  = new Date();
+
+    // ── Heuristic checks ──
+    const checks = [];
+    let riskScore = 0;
+
+    // 1. File type check
+    const validTypes = ['pdf','png','jpg','jpeg','csv','txt'];
+    const ext = name.split('.').pop();
+    const typeOk = validTypes.includes(ext);
+    checks.push({
+        label: 'File Type',
+        detail: typeOk
+            ? `Valid receipt format detected (.${ext})`
+            : `Unexpected file type (.${ext}) — receipts should be PDF, image, or CSV`,
+        status: typeOk ? 'ok' : 'fail'
+    });
+    if (!typeOk) riskScore += 30;
+
+    // 2. File size check
+    const sizeOk = size > 2048 && size < 5 * 1024 * 1024;
+    const sizeKB = (size / 1024).toFixed(1);
+    checks.push({
+        label: 'File Size',
+        detail: sizeOk
+            ? `File size ${sizeKB} KB — looks normal for a transaction receipt`
+            : size <= 2048
+                ? `File is very small (${sizeKB} KB) — may be empty or tampered`
+                : `File is very large (${sizeKB} KB) — unusual for a receipt`,
+        status: sizeOk ? 'ok' : 'warn'
+    });
+    if (!sizeOk) riskScore += size <= 2048 ? 25 : 10;
+
+    // 3. Filename pattern check
+    const suspiciousNames = ['test','fake','dummy','sample','copy','edited','modified','tampered'];
+    const hasSuspiciousName = suspiciousNames.some(s => name.includes(s));
+    checks.push({
+        label: 'Filename Pattern',
+        detail: hasSuspiciousName
+            ? `Filename contains suspicious keyword — possible test or edited file`
+            : `Filename does not contain suspicious keywords`,
+        status: hasSuspiciousName ? 'warn' : 'ok'
+    });
+    if (hasSuspiciousName) riskScore += 20;
+
+    // 4. Timestamp check (file last modified)
+    const modified = new Date(file.lastModified);
+    const diffDays = (now - modified) / (1000 * 60 * 60 * 24);
+    const timeOk = diffDays <= 30;
+    checks.push({
+        label: 'Receipt Date',
+        detail: timeOk
+            ? `File last modified ${Math.round(diffDays)} day(s) ago — within acceptable window`
+            : `File appears to be ${Math.round(diffDays)} day(s) old — may be a reused or stale receipt`,
+        status: timeOk ? 'ok' : 'warn'
+    });
+    if (!timeOk) riskScore += 15;
+
+    // 5. Duplicate submission guard (simple session check)
+    const sessionKey = 'submitted_' + file.name + '_' + file.size;
+    const alreadySubmitted = sessionStorage.getItem(sessionKey);
+    checks.push({
+        label: 'Duplicate Check',
+        detail: alreadySubmitted
+            ? `This exact file was already submitted in this session — possible duplicate payment attempt`
+            : `No duplicate submission detected in current session`,
+        status: alreadySubmitted ? 'fail' : 'ok'
+    });
+    if (alreadySubmitted) riskScore += 40;
+    else sessionStorage.setItem(sessionKey, '1');
+
+    riskScore = Math.min(riskScore, 100);
+
+    // ── Render result ──
+    document.getElementById('scanBar').style.display = 'none';
+    document.getElementById('scanStatus').style.display = 'none';
+
+    const panel  = document.getElementById('resultPanel');
+    const header = document.getElementById('resultHeader');
+    const list   = document.getElementById('checkList');
+    const scoreBar = document.getElementById('scoreBar');
+    const scoreVal = document.getElementById('scoreVal');
+    const verdict  = document.getElementById('verdictBadge');
+
+    let level, icon, headerText;
+    if (riskScore < 25) {
+        level = 'safe';
+        icon  = 'fa-shield-check';
+        headerText = 'Transaction Appears Legitimate';
+    } else if (riskScore < 60) {
+        level = 'warning';
+        icon  = 'fa-triangle-exclamation';
+        headerText = 'Suspicious Signals Detected — Review Carefully';
+    } else {
+        level = 'danger';
+        icon  = 'fa-circle-xmark';
+        headerText = 'High Fraud Risk — Do Not Proceed';
+    }
+
+    header.className = 'result-header ' + level;
+    header.innerHTML = `<i class="fa ${icon}"></i> ${headerText}`;
+
+    list.innerHTML = checks.map(c => `
+        <li>
+            <i class="fa ${c.status==='ok'?'fa-circle-check':c.status==='warn'?'fa-triangle-exclamation':'fa-circle-xmark'} check-icon ${c.status==='ok'?'ok':c.status==='warn'?'warn':'fail'}"></i>
+            <div class="check-text">
+                <span class="check-label">${c.label}</span>
+                ${c.detail}
+            </div>
+        </li>
+    `).join('');
+
+    scoreBar.className = 'score-bar-fill ' + level;
+    scoreBar.style.width = riskScore + '%';
+    scoreVal.className = 'score-value ' + level;
+    scoreVal.textContent = riskScore + '%';
+
+    const verdictLabels = {
+        safe:    { icon: 'fa-check-circle', text: 'Safe to Proceed' },
+        warning: { icon: 'fa-exclamation-circle', text: 'Proceed with Caution' },
+        danger:  { icon: 'fa-ban', text: 'Do Not Proceed' }
+    };
+    const v = verdictLabels[level];
+    verdict.innerHTML = `<span class="verdict ${level}"><i class="fa ${v.icon}"></i> ${v.text}</span>`;
+
+    panel.style.display = 'block';
+    document.getElementById('analyseBtn').disabled = false;
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+
+</body>
+</html>
